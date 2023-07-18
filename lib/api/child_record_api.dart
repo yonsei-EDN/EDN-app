@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:convert' show jsonEncode;
 import 'package:http/http.dart' as http;
 
@@ -82,8 +83,12 @@ class ChildRecordAPI {
 
 // Unit test
 void main() async {
-  // await auth_api.AuthAPI.register("username@email.com", "pass1!word!!", "pass1!word!!");
-  await auth_api.AuthAPI.login("username@email.com", "pass1!word!!");
+  print("enter your email: ");
+  String email = stdin.readLineSync()!;
+  print("enter your password: ");
+  String password = stdin.readLineSync()!;
+  // await auth_api.AuthAPI.register(email, password, password);
+  await auth_api.AuthAPI.login(email, password);
   int childId = 1;
   ChildRecord created = await ChildRecordAPI.create(childId, ChildRecord(height: 12, weight: 34));
   List<ChildRecord> childRecords = await ChildRecordAPI.list(childId);
