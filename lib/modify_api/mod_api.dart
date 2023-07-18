@@ -1,7 +1,6 @@
-import 'package:firstapp/modify_api/mod_service.dart';
-import 'package:firstapp/modify_api/child.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kidscan_app/modify_api/mod_service.dart';
+import 'package:kidscan_app/modify_api/child.dart';
 
 const int user_id = 5;
 

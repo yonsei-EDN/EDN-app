@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:firstapp/modify_api/child.dart';
+import 'package:kidscan_app/modify_api/child.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Services {
