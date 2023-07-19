@@ -5,7 +5,8 @@ import 'package:kidscan_app/api/auth_api.dart' as auth_api;
 
 
 const String apiBaseUri = 'http://api.edndev.net/api/v1';
-// const String apiBaseUri = 'http://localhost:8000/api/v1';
+// const String apiBaseUri = 'http://localhost:8000/api/v1';  // iOS
+// const String apiBaseUri = 'http://10.0.2.2:8000/api/v1';  // android
 
 
 const Map<String, String> defaultPostHeaders = {"Content-Type": "application/json"};
