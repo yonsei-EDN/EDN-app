@@ -1,5 +1,5 @@
-import 'package:firstapp/chart/lineChart.dart';
-import 'package:firstapp/chart/point_data.dart';
+import 'package:kidscan_app/chart/lineChart.dart';
+import 'package:kidscan_app/chart/point_data.dart';
 import 'package:flutter/material.dart';
 
 import '../modify_api/child.dart';
