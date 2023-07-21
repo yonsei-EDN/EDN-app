@@ -6,7 +6,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:kidscan_app/api/common.dart' as api_common;
 import 'package:kidscan_app/api/exceptions.dart' as api_exceptions;
 
-
 abstract class AuthTokenWrapper {
   Future<int?> getUserPK();
   Future<String?> getUserEmail();
@@ -31,6 +30,7 @@ abstract class AuthTokenWrapper {
     if (null != accessToken) await setAccessToken(accessToken);
     if (null != refreshToken) await setRefreshToken(refreshToken);
   }
+
   Future<void> clear() async {
     await deleteUserPK();
     await deleteUserEmail();
@@ -39,11 +39,11 @@ abstract class AuthTokenWrapper {
   }
 }
 
-
 class TemporaryAuthTokenWrapper extends AuthTokenWrapper {
   TemporaryAuthTokenWrapper._();
-  static final TemporaryAuthTokenWrapper instance = TemporaryAuthTokenWrapper._();
-  factory TemporaryAuthTokenWrapper() => instance;  // Make it as singleton
+  static final TemporaryAuthTokenWrapper instance =
+      TemporaryAuthTokenWrapper._();
+  factory TemporaryAuthTokenWrapper() => instance; // Make it as singleton
   static int? _userPK;
   static String? _userEmail;
   static String? _accessToken;
@@ -74,59 +74,68 @@ class TemporaryAuthTokenWrapper extends AuthTokenWrapper {
   Future<void> deleteRefreshToken() async => _refreshToken = null;
 }
 
-
 class FlutterAuthTokenWrapper extends AuthTokenWrapper {
   FlutterAuthTokenWrapper._();
   static final FlutterAuthTokenWrapper instance = FlutterAuthTokenWrapper._();
-  factory FlutterAuthTokenWrapper() => instance;  // Make it as singleton
+  factory FlutterAuthTokenWrapper() => instance; // Make it as singleton
   static const FlutterSecureStorage storage = FlutterSecureStorage();
   static const String userPKKey = 'auth-user-pk';
   static const String userEmailKey = 'auth-user-email';
   static const String jwtAccessTokenKey = 'jwt-auth-access-token';
   static const String jwtRefreshTokenKey = 'jwt-auth-refresh-token';
   @override
-  Future<int?> getUserPK() async => int.tryParse(await storage.read(key: userPKKey) ?? '');
+  Future<int?> getUserPK() async =>
+      int.tryParse(await storage.read(key: userPKKey) ?? '');
   @override
   Future<String?> getUserEmail() async => await storage.read(key: userEmailKey);
   @override
-  Future<String?> getAccessToken() async => await storage.read(key: jwtAccessTokenKey);
+  Future<String?> getAccessToken() async =>
+      await storage.read(key: jwtAccessTokenKey);
   @override
-  Future<String?> getRefreshToken() async => await storage.read(key: jwtRefreshTokenKey);
+  Future<String?> getRefreshToken() async =>
+      await storage.read(key: jwtRefreshTokenKey);
   @override
-  Future<void> setUserPK(int pk) async => await storage.write(key: userPKKey, value: pk.toString());
+  Future<void> setUserPK(int pk) async =>
+      await storage.write(key: userPKKey, value: pk.toString());
   @override
-  Future<void> setUserEmail(String email) async => await storage.write(key: userEmailKey, value: email);
+  Future<void> setUserEmail(String email) async =>
+      await storage.write(key: userEmailKey, value: email);
   @override
-  Future<void> setAccessToken(String token) async => await storage.write(key: jwtAccessTokenKey, value: token);
+  Future<void> setAccessToken(String token) async =>
+      await storage.write(key: jwtAccessTokenKey, value: token);
   @override
-  Future<void> setRefreshToken(String token) async => await storage.write(key: jwtRefreshTokenKey, value: token);
+  Future<void> setRefreshToken(String token) async =>
+      await storage.write(key: jwtRefreshTokenKey, value: token);
   @override
   Future<void> deleteUserPK() async => await storage.delete(key: userPKKey);
   @override
-  Future<void> deleteUserEmail() async => await storage.delete(key: userEmailKey);
+  Future<void> deleteUserEmail() async =>
+      await storage.delete(key: userEmailKey);
   @override
-  Future<void> deleteAccessToken() async => await storage.delete(key: jwtAccessTokenKey);
+  Future<void> deleteAccessToken() async =>
+      await storage.delete(key: jwtAccessTokenKey);
   @override
-  Future<void> deleteRefreshToken() async => await storage.delete(key: jwtRefreshTokenKey);
+  Future<void> deleteRefreshToken() async =>
+      await storage.delete(key: jwtRefreshTokenKey);
 }
-
 
 class AuthAPI {
   static const String uri = '${api_common.apiBaseUri}/accounts';
 
-  static final AuthTokenWrapper tokenWrapper = FlutterAuthTokenWrapper();  // TemporaryAuthTokenWrapper();
+  static final AuthTokenWrapper tokenWrapper =
+      FlutterAuthTokenWrapper(); // TemporaryAuthTokenWrapper();
 
   static Future<void> login(String email, String password) async {
     await api_common.checkAll();
     final url = Uri.parse('$uri/login/');
     final http.Response response;
     try {
-      response = await http.post(
-          url,
+      response = await http.post(url,
           headers: api_common.defaultPostHeaders,
-          body: jsonEncode({"email": email, "password": password})
-      );
-    } on http.ClientException catch (e) {/* request fails */throw api_exceptions.FailedRequest(e);}
+          body: jsonEncode({"email": email, "password": password}));
+    } on http.ClientException catch (e) {
+      /* request fails */ throw api_exceptions.FailedRequest(e);
+    }
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = api_common.decodeBody(response);
       var userPK = data['user']['pk'];
@@ -139,7 +148,9 @@ class AuthAPI {
         accessToken: accessToken,
         refreshToken: refreshToken,
       );
-    } else {/* request fails */throw api_exceptions.UnwantedResponse(response);}
+    } else {
+      /* request fails */ throw api_exceptions.UnwantedResponse(response);
+    }
   }
 
   static Future<void> logout() async {
@@ -148,28 +159,35 @@ class AuthAPI {
     final http.Response response;
     try {
       response = await http.post(
-          url,
-          headers: await addAuthHeader(api_common.defaultPostHeaders),
+        url,
+        headers: await addAuthHeader(api_common.defaultPostHeaders),
       );
-    } on http.ClientException catch (e) {/* request fails */throw api_exceptions.FailedRequest(e);}
-    if (response.statusCode != 204) {
+    } on http.ClientException catch (e) {
+      /* request fails */ throw api_exceptions.FailedRequest(e);
+    }
+    if (response.statusCode != 200) {
       throw api_exceptions.UnwantedResponse(response);
     }
     await tokenWrapper.clear();
   }
 
-  static Future<void> register(String email, String password1, String password2) async {
+  static Future<void> register(
+      String email, String password1, String password2) async {
     await api_common.checkAll();
     final url = Uri.parse('$uri/registration/');
-    assert (password1 == password2);
+    assert(password1 == password2);
     final http.Response response;
     try {
-      response = await http.post(
-          url,
+      response = await http.post(url,
           headers: api_common.defaultPostHeaders,
-          body: jsonEncode({"email": email, "password1": password1, "password2": password2})
-      );
-    } on http.ClientException catch (e) {/* request fails */throw api_exceptions.FailedRequest(e);}
+          body: jsonEncode({
+            "email": email,
+            "password1": password1,
+            "password2": password2
+          }));
+    } on http.ClientException catch (e) {
+      /* request fails */ throw api_exceptions.FailedRequest(e);
+    }
     if (response.statusCode == 201) {
       final Map<String, dynamic> data = api_common.decodeBody(response);
       var userPK = data['user']['pk'];
@@ -182,10 +200,13 @@ class AuthAPI {
         accessToken: accessToken,
         refreshToken: refreshToken,
       );
-    } else {/* request fails */throw api_exceptions.UnwantedResponse(response);}
+    } else {
+      /* request fails */ throw api_exceptions.UnwantedResponse(response);
+    }
   }
 
-  static Future<bool> isUserLoggedIn() async => (await tokenWrapper.getUserPK() ?? -1) != -1;
+  static Future<bool> isUserLoggedIn() async =>
+      (await tokenWrapper.getUserPK() ?? -1) != -1;
 
   static Future<bool> isTokenExpired() async {
     final String? accessToken = await tokenWrapper.getAccessToken();
@@ -214,22 +235,26 @@ class AuthAPI {
     final url = Uri.parse('$uri/token/refresh/');
     final http.Response response;
     try {
-      response = await http.post(
-          url,
+      response = await http.post(url,
           headers: api_common.defaultPostHeaders,
-          body: jsonEncode({"refresh": await tokenWrapper.getRefreshToken()})
-      );
-    } on http.ClientException catch (e) {/* request fails */throw api_exceptions.FailedRequest(e);}
+          body: jsonEncode({"refresh": await tokenWrapper.getRefreshToken()}));
+    } on http.ClientException catch (e) {
+      /* request fails */ throw api_exceptions.FailedRequest(e);
+    }
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = api_common.decodeBody(response);
       var accessToken = data['access'];
       await tokenWrapper.setAccessToken(accessToken);
-    } else {/* request fails */throw api_exceptions.UnwantedResponse(response);}
+    } else {
+      /* request fails */ throw api_exceptions.UnwantedResponse(response);
+    }
   }
 
-  static Future<Map<String, String>> addAuthHeader([Map<String, String>? original]) async => {
-    ...original ?? {},
-    if (await isUserLoggedIn()) "Authorization": "Bearer ${await tokenWrapper.getAccessToken()}"
-  };
-
+  static Future<Map<String, String>> addAuthHeader(
+          [Map<String, String>? original]) async =>
+      {
+        ...original ?? {},
+        if (await isUserLoggedIn())
+          "Authorization": "Bearer ${await tokenWrapper.getAccessToken()}"
+      };
 }
