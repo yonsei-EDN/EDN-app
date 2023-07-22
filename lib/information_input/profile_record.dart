@@ -190,14 +190,12 @@ class _ProfileEnterState extends State<ProfileEnter> {
   }
 }
 
-renderTextFormField({
+Column renderTextFormField({
   required String label,
   required String decorate,
   required FormFieldSetter onSaved,
   required FormFieldValidator validator,
 }) {
-  assert(onSaved != null);
-  assert(validator != null);
 
   return Column(
     children: [

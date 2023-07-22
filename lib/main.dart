@@ -1,5 +1,5 @@
-import 'package:firstapp/information_input/profile_record.dart';
-import 'package:firstapp/local_txt/profile_show.dart';
+import 'package:kidscan_app/information_input/profile_record.dart';
+import 'package:kidscan_app/local_txt/profile_show.dart';
 import 'package:flutter/material.dart';
 
 import 'chart/show_health_chart.dart';
