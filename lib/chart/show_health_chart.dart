@@ -1,11 +1,11 @@
-import 'package:kidscan_app/chart/lineChart.dart';
+import 'package:kidscan_app/chart/line_chart.dart';
 import 'package:kidscan_app/chart/point_data.dart';
 import 'package:flutter/material.dart';
 
 import '../modify_api/child.dart';
 import '../modify_api/mod_service.dart';
 
-const int user_id = 5;
+const int userId = 5;
 
 class DrawHealthChart extends StatefulWidget {
   const DrawHealthChart({super.key});
@@ -16,30 +16,29 @@ class DrawHealthChart extends StatefulWidget {
 
 class _DrawHealthChartState extends State<DrawHealthChart> {
   bool loading = false;
-  List<ChildPoint> childPoints_height = <ChildPoint>[];
-  List<ChildPoint> childPoints_weight = <ChildPoint>[];
+  List<ChildPoint> childPointsHeight = <ChildPoint>[];
+  List<ChildPoint> childPointsWeight = <ChildPoint>[];
 
-  Child user_child = Child(birhtday: DateTime.now(), record: <Record>[], id: 0);
+  Child userChild = Child(birhtday: DateTime.now(), record: <Record>[], id: 0);
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
-    Services.getInfo().then((Childs) {
+    Services.getInfo().then((childs) {
       setState(() {
-        user_child = Childs[0];
-        for (int i = 0; i < Childs.length; i++) {
-          if (Childs[i].id == user_id) {
-            user_child = Childs[i];
-            var birth = user_child.birhtday;
-            var record = user_child.record;
+        userChild = childs[0];
+        for (int i = 0; i < childs.length; i++) {
+          if (childs[i].id == userId) {
+            userChild = childs[i];
+            var birth = userChild.birhtday;
+            var record = userChild.record;
             for (int i = 0; i < record.length; i++) {
               var height = record[i].height;
               var weight = record[i].weight;
               var days = record[i].updated.difference(birth).inDays.toDouble();
 
-              childPoints_height.add(ChildPoint(x: days, y: height));
-              childPoints_weight.add(ChildPoint(x: days, y: weight));
+              childPointsHeight.add(ChildPoint(x: days, y: height));
+              childPointsWeight.add(ChildPoint(x: days, y: weight));
             }
 
             break;
@@ -63,9 +62,9 @@ class _DrawHealthChartState extends State<DrawHealthChart> {
           AppBar(title: Text(loading ? 'Child Health Record' : 'Loading...')),
       body: ListView(
         children: [
-          LineChartWidget(childPoints_height, 0),
-          SizedBox(height: 30),
-          LineChartWidget(childPoints_weight, 1),
+          LineChartWidget(childPointsHeight, 0),
+          const SizedBox(height: 30),
+          LineChartWidget(childPointsWeight, 1),
         ],
       ),
     );
