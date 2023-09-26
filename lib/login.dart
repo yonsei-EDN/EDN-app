@@ -144,7 +144,7 @@ class _LogFormState extends State<LogForm> {
 
 String getErrorMsg(Object e) {
   if (e is UnwantedResponse) {
-    return e.body.values.elementAt(0).elementAt(0).toString();
+    return e.body.values.elementAt(0).toString();
   } else if (e is FailedRequest) {
     return e.message;
   } else if (e is LoginRequired) {

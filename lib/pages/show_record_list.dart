@@ -45,9 +45,11 @@ class _ShowRecordListState extends State<ShowRecordList> {
                 itemBuilder: (context, index) {
                   if (index == 0) {
                     return Container(
-                      height: 25,
+                      height: 40,
                       alignment: Alignment.centerRight,
                       child: IconButton(
+                        splashRadius: 14,
+                        hoverColor: Colors.orange.withOpacity(0.3),
                         icon: const Icon(Icons.add),
                         onPressed: () async {
                           await Navigator.push(
@@ -61,8 +63,6 @@ class _ShowRecordListState extends State<ShowRecordList> {
                           });
                           loadRecord();
                         },
-                        focusColor: Colors.red,
-                        selectedIcon: const Icon(Icons.add_chart),
                       ),
                     );
                   }
@@ -70,6 +70,7 @@ class _ShowRecordListState extends State<ShowRecordList> {
                   return Slidable(
                     //TODO: 삭제 버튼 디자인 조정
                     endActionPane: ActionPane(
+                      extentRatio: 0.7,
                       motion: const StretchMotion(),
                       children: [
                         SlidableAction(
@@ -129,13 +130,8 @@ class _ShowRecordListState extends State<ShowRecordList> {
                           loadRecord();
                         },
                         title: Text(
-                          //TODO: 키, 몸무게 텍스트 추가
-                          childRecords
-                              .elementAt(index - 1)
-                              .updated
-                              .toString()
-                              .substring(0, 10),
-                        ),
+                            //TODO: 키, 몸무게 텍스트 추가
+                            "${childRecords.elementAt(index - 1).updated.toString().substring(0, 10)}일자의 기록"),
                       ),
                     ),
                   );
