@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  base_codecs:
+    dependency: transitive
+    description:
+      name: base_codecs
+      sha256: "41701a12ede9912663decd708279924ece5018566daa7d1f484d5f4f10894f91"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -41,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.1"
+  crypto:
+    dependency: transitive
+    description:
+      name: crypto
+      sha256: ff625774173754681d66daaf4a448684fb04b78f902da9cb3d308c19cc5e8bab
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.3"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -49,6 +65,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  data_serializer:
+    dependency: transitive
+    description:
+      name: data_serializer
+      sha256: "4f5fe72aab892bb4853dedfb974fc606a2791e37c4913236a57bc10defb9137b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.7"
   equatable:
     dependency: transitive
     description:
@@ -102,6 +126,19 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  flutter_material_symbols:
+    dependency: "direct main"
+    description:
+      name: flutter_material_symbols
+      sha256: "14845fb68cfb4ec264de5a49e0f3e7bc7c8f1b61898605162a378b17a06a80a0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -150,6 +187,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  flutter_slidable:
+    dependency: "direct main"
+    description:
+      name: flutter_slidable
+      sha256: cc4231579e3eae41ae166660df717f4bad1359c87f4a4322ad8ba1befeb3d2be
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -184,6 +229,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: a3715e3bc90294e971cb7dc063fbf3cd9ee0ebf8604ffeafabd9e6f16abbdbe6
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.0"
   js:
     dependency: transitive
     description:
@@ -397,6 +450,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
+  statistics:
+    dependency: "direct main"
+    description:
+      name: statistics
+      sha256: "0f58cd34dd052070f0d1ba3a6a4c69256bfce00564df354aabaf79ebbb405751"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.25"
   stream_channel:
     dependency: transitive
     description:
@@ -471,4 +532,4 @@ packages:
     version: "1.0.1"
 sdks:
   dart: ">=3.0.5 <4.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.7.0"

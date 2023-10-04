@@ -1,95 +1,47 @@
-import 'package:kidscan_app/information_input/profile_record.dart';
-import 'package:kidscan_app/local_txt/profile_show.dart';
 import 'package:flutter/material.dart';
+import 'package:kidscan_app/api/auth_api.dart';
+import 'package:kidscan_app/api/child_api.dart';
+import 'package:kidscan_app/login.dart';
+import 'package:kidscan_app/models/child.dart';
+import 'package:kidscan_app/pages/homepage.dart';
+// import 'package:temporal/pages/chatbot.dart';
+// import 'package:temporal/pages/homepage.dart';
+// import 'package:temporal/prac/information.dart';
+// import 'package:temporal/pages/show_record_list.dart';
 
-import 'chart/show_health_chart.dart';
-import 'information_input/birth_modify.dart';
+String myEmail = 'chonahyun0615@edndev.net';
+String myPassword = '!!43214321';
+late final int userChildId;
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await AuthAPI.login(myEmail, myPassword);
+
+  final List<Child> userChilds = await ChildAPI.list();
+  userChildId = userChilds[0].id;
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Character card',
-      home: TestScreen(),
-    );
-  }
-}
-
-class TestScreen extends StatelessWidget {
-  const TestScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('우리 아이 성장 기록하기'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(fixedSize: Size(120, 70)),
-              child: Text('기록하기', style: TextStyle(fontSize: 20)),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ProfileRecord(),
-                    ));
-              },
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(fixedSize: Size(120, 70)),
-              child: Text('우리 아이\n성장 일지 리스트', style: TextStyle(fontSize: 20)),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ProfileShow(),
-                    ));
-              },
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(fixedSize: Size(120, 70)),
-              child: Text('우리 아이\n성장 곡선', style: TextStyle(fontSize: 20)),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const DrawHealthChart(),
-                    ));
-              },
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(fixedSize: Size(120, 70)),
-              child: Text('생일 바꾸기', style: TextStyle(fontSize: 20)),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const BirthModify(),
-                    ));
-              },
-            ),
-          ],
-        ),
-      ),
+      title: 'navigate demo',
+      // theme: ThemeData(
+      //   // primarySwatch: Colors.teal,
+      //   colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal),
+      //   useMaterial3: true,
+      //   fontFamily: 'Material Symbols',
+      // ),
+      home: HomePage(childId: userChildId), //LoginPage(),
+      // routes: {
+      //   '/homepage': (context) => HomePage(),
+      //   // '/show_record_list': (context) => ShowRecordList(),
+      //   // '/chatbot': (context) => ChatBot(),
+      //   '/information': (context) => Information(),
+      // },
     );
   }
 }
