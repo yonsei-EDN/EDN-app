@@ -242,8 +242,10 @@ class AuthAPI {
     }
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = api_common.decodeBody(response);
-      var accessToken = data['access'];
-      await tokenWrapper.setAccessToken(accessToken);
+      await tokenWrapper.setAccessToken(data['access']);
+      if (data.containsKey('refresh')) {
+        await tokenWrapper.setRefreshToken(data['refresh']);
+      }
     } else {
       /* request fails */ throw api_exceptions.UnwantedResponse(response);
     }
